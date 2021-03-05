@@ -66,15 +66,26 @@ data.forEach((elm) => {
     elm.choice.forEach((choice) => {
         choices += `<button value="${choice}" class="btn">${choice}</button>`;
     });
-    ergebnis.innerHTML += `<div><img src="${elm.url}" alt=""><h2>${elm.question}</h2><div><ul id="choiceBtn">${choices}</ul></div></div>`
+    ergebnis.innerHTML += `<div><img src="${elm.url}" alt=""><h2>${elm.question}</h2><div><ul>${choices}</ul></div></div>`
 });
-let choiceBtn = document.querySelectorAll(".choiceBtn")
 let btn = document.querySelectorAll(".btn")
 btn.forEach((elm) => {
+    for (let i = 0; i < btn.length; i++) {
+        console.log(btn[i])
+        let button = document.createElement("button")
+        button.textContent = btn[i]
+        button.className = data.answer.toString()
+    }
     elm.addEventListener("click", () => {
-        for (let i = 0; i < data.length; i++) {
-            btn.textContent = data.choice[i]
-            btn.className = data.answer.toString()
+        for (let i = 0; i < btn.length; i++) {
+            btn[i].addEventListener("click", (e) => {
+                console.log(e.target.innerHTML)
+                if (e.target.className == e.target.innerHTML) {
+                    e.target.style.backgroundColor = 'green'
+                } else {
+                    e.target.style.backgroundColor = 'red'
+                }
+            })
         }
     })
 })
