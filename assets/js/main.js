@@ -60,32 +60,36 @@ let data = [
         answer: "Pacific Ocean"
     }
 ]
-let ergebnis = document.querySelector("div")
-data.forEach((elm) => {
-    let choices = "";
-    elm.choice.forEach((choice) => {
-        choices += `<button value="${choice}" class="btn">${choice}</button>`;
-    });
-    ergebnis.innerHTML += `<div><img src="${elm.url}" alt=""><h2>${elm.question}</h2><div><ul>${choices}</ul></div></div>`
-});
-let btn = document.querySelectorAll(".btn")
-btn.forEach((elm) => {
-    for (let i = 0; i < btn.length; i++) {
-        console.log(btn[i])
-        let button = document.createElement("button")
-        button.textContent = btn[i]
+const content = document.getElementById('content')
+data.forEach(data => {
+    let figure = document.createElement('figure')
+    let img = document.createElement('img')
+    img.src = data.url
+    let figcaption = document.createElement('figcaption')
+    let question = document.createElement('question')
+    question.textContent = data.question
+    figcaption.appendChild(question)
+    for (i = 0; i < data.choice.length; i++) {
+        let button = document.createElement('button')
+        button.textContent = data.choice[i]
         button.className = data.answer.toString()
+        figcaption.appendChild(button)
     }
-    elm.addEventListener("click", () => {
-        for (let i = 0; i < btn.length; i++) {
-            btn[i].addEventListener("click", (e) => {
-                console.log(e.target.innerHTML)
-                if (e.target.className == e.target.innerHTML) {
-                    e.target.style.backgroundColor = 'green'
-                } else {
-                    e.target.style.backgroundColor = 'red'
-                }
-            })
-        }
-    })
+    figure.appendChild(img)
+    figure.appendChild(figcaption)
+    content.appendChild(figure)
+    let btn = document.getElementsByClassName(data.answer.toString())
+    console.log(btn)
+    for (let i = 0; i < btn.length; i++) {
+        btn[i].addEventListener('click', (e) => {
+            console.log(e.target.innerHTML)
+            console.log(e.target.className)
+            if (e.target.className == e.target.innerHTML) {
+                e.target.style.backgroundColor = "green"
+            } else {
+                e.target.style.backgroundColor = "red"
+            }
+            Array.from(btn).forEach(btn => btn.disabled = true)
+        })
+    }
 })
